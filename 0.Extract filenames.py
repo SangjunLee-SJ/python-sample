@@ -1,5 +1,5 @@
 # Extract filenames(Python)
-# THIS CODE IS SUPPORTED BY ChatGPT and Copliot
+# ThIS CODE IS SUPPORTED BY ChatGPT and Copliot
 
 import os
 import tkinter as tk

@@ -1,5 +1,5 @@
 # Change filenames using xlsx(Python)
-# ThIS CODE IS SUPPORTED BY ChatGPT and Copliot
+# THIS CODE IS SUPPORTED BY ChatGPT and Copliot
 import os
 import pandas as pd
 import tkinter as tk
