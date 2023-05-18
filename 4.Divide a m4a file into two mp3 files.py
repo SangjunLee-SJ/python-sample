@@ -35,17 +35,8 @@ class AudioEditor:
             first_half = self.audio[:self.timestamp]
             second_half = self.audio[self.timestamp:]
 
-            first_half.export("output1.wav", format="wav")
-            second_half.export("output2.wav", format="wav")
-
-            # Convert WAV files to M4A using pydub
-            output1 = AudioSegment.from_file("output1.wav", format="wav")
-            output1.export("output1.m4a", format="m4a")
-
-            output2 = AudioSegment.from_file("output2.wav", format="wav")
-            output2.export("output2.m4a", format="m4a")
-
-            print("Audio divided at timestamp:", self.timestamp)
+            first_half.export("output1.mp3", format="mp3")
+            second_half.export("output2.mp3", format="mp3")
 
 # Create Tkinter window
 root = tk.Tk()
