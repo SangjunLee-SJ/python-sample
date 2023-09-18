@@ -65,7 +65,9 @@ class WorkHoursApp:
         current_time = datetime.now()
         date_str = current_time.strftime('%Y-%m-%d')
         time_str = current_time.strftime('%H:%M:%S')
-        estimated_leaving_time_str = (current_time + timedelta(hours=8)).strftime('%H:%M:%S')
+        
+        #Add or erase the lunch time +1
+        estimated_leaving_time_str = (current_time + timedelta(hours=9)).strftime('%H:%M:%S')
         
         # Append to Google Sheets
         row_data = append_to_sheet(date_str, time_str, estimated_leaving_time_str)
