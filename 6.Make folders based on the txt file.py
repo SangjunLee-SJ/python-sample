@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import os
+import chardet
 
 class FolderMakerApp:
     def __init__(self, root):
@@ -23,24 +24,36 @@ class FolderMakerApp:
             counter += 1
         return new_name
 
+    def detect_encoding(self, file_path):
+        with open(file_path, 'rb') as f:
+            raw_data = f.read(10000)  # Read first 10KB for detection
+        result = chardet.detect(raw_data)
+        return result['encoding']
+
     def make_folders(self):
         filepath = filedialog.askopenfilename(title="Select a Text File", filetypes=[("Text files", "*.txt")])
         if not filepath:
+            return
+        
+        try:
+            encoding = self.detect_encoding(filepath)
+            with open(filepath, "r", encoding=encoding) as f:
+                titles = f.readlines()
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to read the file: {e}")
             return
         
         # Creating the main folder named after the text file
         base_folder_name = os.path.splitext(os.path.basename(filepath))[0]  # Extracting filename without extension
         main_folder_name = self.get_unique_folder_name(os.path.dirname(filepath), base_folder_name)
         main_folder_path = os.path.join(os.path.dirname(filepath), main_folder_name)
-        os.makedirs(main_folder_path)
+        os.makedirs(main_folder_path, exist_ok=True)
         
-        with open(filepath, "r", encoding="utf-8") as f:  # Specifying UTF-8 encoding
-            titles = f.readlines()
-            
         for title in titles:
             title = title.strip()  # Remove any leading/trailing whitespaces
-            subfolder_name = self.get_unique_folder_name(main_folder_path, title)
-            os.makedirs(os.path.join(main_folder_path, subfolder_name))
+            if title:  # Ensure the title is not empty
+                subfolder_name = self.get_unique_folder_name(main_folder_path, title)
+                os.makedirs(os.path.join(main_folder_path, subfolder_name), exist_ok=True)
 
         self.status_label.config(text="Done.")
 
