@@ -1,6 +1,13 @@
+import chardet
+
 def split_text_file(input_file, output_file_prefix, max_chars=4000):
-    # Open the original file for reading
-    with open(input_file, 'r', encoding='utf-8') as file:
+    # Detect the file encoding
+    with open(input_file, 'rb') as file:
+        raw_data = file.read()
+        detected_encoding = chardet.detect(raw_data)['encoding']
+    
+    # Open the original file for reading with the detected encoding
+    with open(input_file, 'r', encoding=detected_encoding) as file:
         text = file.read()
     
     # Calculate the number of parts needed
@@ -20,6 +27,6 @@ def split_text_file(input_file, output_file_prefix, max_chars=4000):
         print(f"Created: {output_file}")
 
 # Example usage:
-input_file = 'txt file path'  # Replace with your input file path
-output_file_prefix = 'output'  # Prefix for output files #Warning: the output txt files will be saved in the location path of the python script has run.
+input_file = r'txt file path/.txt'  # Replace with your input file path
+output_file_prefix = 'output'  # Prefix for output files
 split_text_file(input_file, output_file_prefix)
